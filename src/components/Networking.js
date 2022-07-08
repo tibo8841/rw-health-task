@@ -1,15 +1,15 @@
 const URL = "https://rw-health-backend.herokuapp.com/";
 
-export async function getLogin(username, password) {
+export async function getLogin(email, password) {
   const result = await fetch(
-    `${URL}/login?username=${username}&password=${password}`
+    `${URL}/login?email=${email}&password=${password}`
   );
   const json = await result.json();
   return json;
 }
 
-export async function registerUser(username, password) {
-  const userDetails = { username: username, password: password };
+export async function registerUser(email, password) {
+  const userDetails = { email: email, password: password };
   const result = await fetch(`${URL}/register`, {
     method: "POST",
     headers: {
