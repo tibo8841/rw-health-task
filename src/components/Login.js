@@ -15,7 +15,7 @@ export default function Login(props) {
       console.log(loginCheck.user.id);
       console.log("sessions should be started");
       console.log(await checkSessions());
-      window.location.reload(false);
+      props.goToHome();
     } else {
       console.log(loginCheck.response);
     }
