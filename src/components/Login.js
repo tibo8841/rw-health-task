@@ -54,6 +54,7 @@ export default function Login(props) {
             onChange={(e) => assignPassword(e.target.value)}
           />
           <button onClick={handleSubmit}>Sign In</button>
+          <button onClick={props.goToHome}>Go to Homepage</button>
           <p
             onClick={props.goToRegister}
             style={{ color: "rgba(113, 174, 244, 0.99)", cursor: "pointer" }}
