@@ -6,16 +6,25 @@ export default function Register(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [passwordRequirements, setPasswordRequirements] = useState(true);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(email, password, confirmPassword);
     if (password === confirmPassword) {
-      const registerCheck = await registerUser(email, password);
-      if (registerCheck.response === "email already exists") {
-        console.log(registerCheck.response);
+      if (
+        password.includes(
+          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{10,}$"
+        )
+      ) {
+        const registerCheck = await registerUser(email, password);
+        if (registerCheck.response === "email already exists") {
+          console.log(registerCheck.response);
+        } else {
+          console.log(registerCheck.response);
+        }
       } else {
-        console.log(registerCheck.response);
+        setPasswordRequirements(false);
       }
     } else {
       setPasswordsMatch(false);
@@ -55,7 +64,6 @@ export default function Register(props) {
             id="password"
             placeholder="password"
             onChange={(e) => assignPassword(e.target.value)}
-            //   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$"
           />
           <label htmlFor="confirm-password"> confirm password: </label>
           <input
@@ -66,9 +74,11 @@ export default function Register(props) {
             onChange={(e) => assignConfirmPassword(e.target.value)}
           />
           <button onClick={handleSubmit}>Sign Up</button>
-          {!passwordsMatch ? (
+          {!passwordRequirements ? (
             <div className="message">
-              <h3>Password must contain the following:</h3>
+              <h3 style={{ color: "rgb(235, 80, 72)" }}>
+                Password must contain the following:
+              </h3>
               <p id="letter" className="invalid">
                 A <b>lowercase</b> letter
               </p>
@@ -81,6 +91,13 @@ export default function Register(props) {
               <p id="length" className="invalid">
                 Minimum <b>10 characters</b>
               </p>
+            </div>
+          ) : null}
+          {!passwordsMatch ? (
+            <div>
+              <h3 style={{ color: "rgb(235, 80, 72)" }}>
+                Passwords don't match
+              </h3>
             </div>
           ) : null}
           <p
