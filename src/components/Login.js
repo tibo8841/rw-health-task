@@ -1,13 +1,15 @@
 import { getLogin, startSession, checkSessions } from "./Networking";
+import { useState } from "react";
+import "../App.css";
 
-export default function Login() {
+export default function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const loginCheck = await getLogin(
-      data.get("username"),
-      data.get("password")
-    );
+    console.log(email, password);
+    const loginCheck = await getLogin(email, password);
     if (loginCheck.response === "User Found") {
       await startSession(loginCheck.user.id);
       console.log(loginCheck.user.id);
@@ -19,17 +21,47 @@ export default function Login() {
     }
   };
 
+  function assignEmail(email) {
+    setEmail(email);
+  }
+
+  function assignPassword(password) {
+    setPassword(password);
+  }
+
   return (
-    <div>
-      <h1>Sign in</h1>
-      <form>
-        <label htmlFor="username"> username: </label>
-        <input id="username" label="username" name="username" autoFocus />
-        <label htmlFor="password"> password: </label>
-        <input name="password" label="Password" type="password" id="password" />
-        <button onClick={handleSubmit}>Sign In</button>
-      </form>
-      <a href="/register">Don't have an account? Sign Up</a>
+    <div className="main-page">
+      <div className="login-box">
+        <div className="left-image"></div>
+        <form>
+          <h4>Sign in</h4>
+          <label htmlFor="email"> email: </label>
+          <input
+            id="email"
+            label="email"
+            name="email"
+            placeholder="email"
+            autoFocus
+            onChange={(e) => assignEmail(e.target.value)}
+          />
+          <label htmlFor="password"> password: </label>
+          <input
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            placeholder="password"
+            onChange={(e) => assignPassword(e.target.value)}
+          />
+          <button onClick={handleSubmit}>Sign In</button>
+          <p
+            onClick={props.goToRegister}
+            style={{ color: "rgba(113, 174, 244, 0.99)", cursor: "pointer" }}
+          >
+            Don't have an account? Sign Up
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
