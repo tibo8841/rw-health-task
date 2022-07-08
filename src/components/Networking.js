@@ -1,4 +1,4 @@
-const URL = "https://rw-health-backend.herokuapp.com/";
+const URL = "https://rw-health-backend.herokuapp.com";
 
 export async function getLogin(email, password) {
   const result = await fetch(
